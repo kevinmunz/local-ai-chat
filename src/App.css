@@ -1,0 +1,552 @@
+/* Layout */
+
+.app-layout {
+    display: grid;
+    grid-template-columns: 30rem minmax(0, 1fr);
+    height: 100dvh;
+    overflow: hidden;
+    background-color: var(--color-background);
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 85rem;
+    min-width: 0;
+    min-height: 0;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar */
+
+.sidebar {
+    min-height: 0;
+    padding: 0 1rem;
+    overflow-y: auto;
+    background-color: var(--color-surface);
+}
+
+.sidebar-title {
+    margin: 1rem;
+}
+
+.sidebar-label {
+    color: var(--color-text-muted);
+    margin: 1rem;
+}
+
+.sidebar-select {
+    appearance: none;
+    width: 100%;
+    padding: 1rem 4rem 1rem 1.2rem;
+    margin: 0 0 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    background-color: var(--color-background);
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-accent) 50%), linear-gradient(135deg, var(--color-accent) 50%, transparent 50%);
+    background-repeat: no-repeat;
+    background-position: right 1.7rem center, right 1.2rem center;
+    background-size: 0.5rem 0.5rem;
+    color: var(--color-accent);
+    cursor: pointer;
+}
+
+.sidebar-select:hover {
+    background-color: var(--color-accent-soft);
+    border-color: var(--color-accent);
+}
+
+.sidebar-select option {
+    background-color: var(--color-surface);
+    color: var(--color-accent);
+}
+
+/* Enhanced native picker; unsupported browsers keep their native option list. */
+@supports (appearance: base-select) {
+    .sidebar-select,
+    .sidebar-select::picker(select) {
+        appearance: base-select;
+    }
+
+    .sidebar-select {
+        align-items: center;
+        padding-right: 1.2rem;
+        background-image: none;
+    }
+
+    .sidebar-select::picker-icon {
+        content: "";
+        width: 0.8rem;
+        height: 0.8rem;
+        margin-inline-start: auto;
+        margin-inline-end: 0.4rem;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: translateY(-0.2rem) rotate(45deg);
+        color: var(--color-accent);
+    }
+
+    .sidebar-select:open::picker-icon {
+        transform: translateY(0.2rem) rotate(225deg);
+    }
+
+    .sidebar-select::picker(select) {
+        margin-top: 0.6rem;
+        padding: 0.5rem;
+        border: 1px solid var(--color-border);
+        border-radius: 1.2rem;
+        background-color: var(--color-surface);
+        box-shadow: 0 8px 24px var(--color-shadow);
+    }
+
+    .sidebar-select option {
+        padding: 1rem;
+        gap: 1rem;
+        border-radius: 0.8rem;
+        cursor: pointer;
+    }
+
+    .sidebar-select option:hover,
+    .sidebar-select option:focus-visible {
+        background-color: var(--color-background);
+    }
+
+    .sidebar-select option:checked {
+        background-color: var(--color-accent-soft);
+        font-weight: 600;
+    }
+
+    .sidebar-select option::checkmark {
+        color: var(--color-accent);
+    }
+}
+
+
+.sidebar-conversation {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 1rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 1rem;
+    text-decoration: none;
+    color: var(--color-text);
+    text-align: start;
+    cursor: pointer;
+    min-width: 0;
+}
+
+.sidebar-conversation .sidebar-link {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+}
+
+.sidebar-link:hover {
+    background-color: var(--color-background);
+    color: var(--color-accent);
+}
+
+.sidebar-link-icon {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.sidebar-link-text {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.sidebar-conversation:hover {
+    background-color: var(--color-background);
+}
+
+.sidebar-conversation-active {
+    background-color: var(--color-accent-soft);
+}
+
+.sidebar-conversation-active:hover {
+    background-color: var(--color-accent-soft);
+}
+
+/* Conversation backgrounds belong to the entire row. */
+.sidebar-conversation .sidebar-link,
+.sidebar-conversation .sidebar-link:hover {
+    background-color: transparent;
+}
+
+.sidebar-conversation:hover .sidebar-link {
+    color: var(--color-accent);
+}
+
+.sidebar-conversation-active .sidebar-link,
+.sidebar-conversation-active:hover .sidebar-link {
+    color: var(--color-accent);
+}
+
+/* Chat and empty state */
+
+.chat-box {
+    padding: 1rem 1rem;
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.chat-box-empty {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-empty {
+    max-width: 45rem;
+    margin: auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.chat-empty h2 {
+    color: var(--color-accent);
+    margin: 0 0 1rem;
+}
+
+.chat-empty p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.chat-date {
+    margin: 2rem 0;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 1.4rem;
+}
+
+/* Message input */
+
+.chat-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    height: 8rem;
+    box-shadow: 0px -10px 15px -3px var(--color-shadow);
+    flex-shrink: 0;
+    background-color: var(--color-surface);
+}
+
+.chat-input {
+    background-color: var(--color-background);
+    flex: 1;
+    min-width: 0;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    border: none;
+    color: var(--color-text);
+}
+
+.chat-input::placeholder {
+    color: var(--color-text-muted);
+    opacity: 1;
+}
+
+.send-button {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    width: 12rem;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Messages */
+
+.message-sender {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.message-receiver,
+.message-app {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.message-info {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.message-sender .message-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.message-receiver .message-info {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.message-ts {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+}
+
+.message-sender .message-ts,
+.message-receiver .message-ts {
+    line-height: 1;
+    color: var(--color-text-muted);
+    font-size: 1.4rem;
+    margin: auto 0.5rem 1rem 0.5rem;
+}
+
+.message-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 50rem;
+    padding: 1.5rem;
+    border-radius: 2rem;
+    margin: 0 1rem 1rem 1rem;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+}
+
+.message-sender .message-text {
+    background-color: var(--color-accent-soft);
+    color: var(--color-text);
+}
+
+.message-receiver .message-text {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+}
+
+.message-app .message-text {
+    background-color: var(--color-surface);
+    border: var(--color-border);
+    border-style: dashed;
+    border-width: medium;
+    color: var(--color-text-muted);
+}
+
+.pfp {
+    height: 7rem;
+    width: 7rem;
+    border-radius: 50%;
+}
+
+.pfp,
+.message-ts {
+    flex-shrink: 0;
+}
+
+/* Markdown */
+
+.message-text > :first-child {
+    margin-top: 0;
+}
+
+.message-text > :last-child {
+    margin-bottom: 0;
+}
+
+.message-text pre {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 1rem;
+    border-radius: 0.8rem;
+    background-color: var(--color-shadow);
+    white-space: pre;
+}
+
+.message-text code {
+    font-family: monospace;
+}
+
+.message-text a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.message-text table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+}
+
+.message-text th,
+.message-text td {
+    padding: 0.6rem;
+    border: 1px solid currentColor;
+}
+
+.message-text img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Copy and delete actions */
+
+.conversation-delete {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 4.4rem;
+    height: 4.4rem;
+    padding: 0;
+    border: none;
+    border-radius: 1rem;
+    background-color: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+}
+
+.message-delete,
+.message-copy {
+    display: grid;
+    place-items: center;
+    align-self: flex-end;
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    padding: 0;
+    border: none;
+    border-radius: 0.8rem;
+    background-color: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+}
+
+.conversation-delete:hover:not(:disabled),
+.message-delete:hover:not(:disabled) {
+    background-color: var(--color-background);
+    color: var(--color-danger);
+}
+
+.message-copy:hover {
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent);
+}
+
+/* Interaction states */
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* Reveal message details on hover or keyboard focus; touch keeps them visible. */
+@media (hover: hover) and (pointer: fine) {
+    .sidebar-conversation:not(:hover):not(:has(:focus-visible)) .conversation-delete {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .message-info:not(:hover):not(:focus-within) > :is(.message-ts, .message-copy, .message-delete) {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+/* Mobile navigation */
+
+.mobile-header {
+    display: none;
+}
+
+.sidebar-backdrop {
+    display: none;
+    background-color: var(--color-overlay);
+}
+
+@media (max-width: 768px) {
+    .app-layout {
+        position: relative;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto minmax(0, 1fr);
+        background-color: var(--color-background);
+    }
+
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1rem;
+        background-color: var(--color-surface);
+        border-bottom: 1px solid var(--color-border);
+        height: 6.5rem;
+    }
+
+    .menu-toggle {
+        padding: 1rem;
+        border: none;
+        border-radius: 1rem;
+        background-color: var(--color-background);
+        color: var(--color-text);
+        cursor: pointer;
+    }
+
+    .sidebar {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+
+    .sidebar.sidebar-open {
+        display: block;
+        top: 6.5rem;
+        bottom: 0;
+        width: min(28rem, 100%);
+        z-index: 10;
+        box-shadow: 8px 0 20px var(--color-shadow);
+    }
+
+    .chat-container {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: absolute;
+        inset: 6.5rem 0 0;
+        z-index: 9;
+        padding: 0;
+        border: none;
+        background-color: var(--color-overlay);
+        cursor: pointer;
+    }
+}
